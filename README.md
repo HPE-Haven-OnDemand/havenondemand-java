@@ -293,10 +293,10 @@ public void requestCompletedWithContent(String response)
 
 ###Function ParseCustomResponse
 ```
-object ParseCustomResponse<T>(jsonStr)
+public Object ParseCustomResponse(Class<?> T, String jsonStr)
 ```
 
-* `<T>`: a custom class object.
+* `T`: a custom class object.
 * `jsonStr` a json string returned from Haven OnDemand APIs.
 
 *Example code:*
@@ -375,10 +375,13 @@ void client_requestCompletedWithContent(String response)
 ```
 
 ---
-## Examples\WebAppDemo-01 Demo: 
+## Examples\WebAppDemo-01: 
 How to use the library in Java Servlet app.
 
-## Example\SentimentAnalysis Demo:
+## Examples\AjaxDemo:
+How to use the library in with AJAX calls.
+
+## Examples\JavaAppDemo:
 How to use the library in a Java app.
 
 ## License
