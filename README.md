@@ -137,7 +137,7 @@ void PostRequest(Map<String, Object> params, String hodApp, REQ_MODE mode)
 
 
 ```
-> Note 1: Post file syntax.
+// Note 1: Post files syntax.
 Map<String, Object> params = new HashMap<String, Object>();
 
 // post a single file with a file InputStream
@@ -169,7 +169,7 @@ uploadFiles.add(tempFile2);
 uploadFiles.add(tempFile3);
 params.put("file", uploadFiles);
 
-> Note 2: For a value with its type is an array<>, the value must be defined in a List\<String>. 
+// Note 2: For a value with its type is an array<>, the value must be defined in a List<String>. 
 Map<String, Object> params = new HashMap<String, Object>();
 List<String> entities = new ArrayList<String>();
 entities.add("people_eng");
@@ -182,7 +182,7 @@ client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.ASYNC);
 * `hodApp` a string to identify a Haven OnDemand API. E.g. "ocrdocument". Current supported apps are listed in the HODApps class.
 
 * `mode` [REQ_MODE.SYNC | REQ_MODE.ASYNC]: specifies API call as Asynchronous or Synchronous.
-```
+
 
 ### Function GetJobResult
 ```
