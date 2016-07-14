@@ -135,28 +135,30 @@ void PostRequest(Map<String, Object> params, String hodApp, REQ_MODE mode)
 ```
 * `params` is a HashMap object containing key/value pair parameters to be sent to a Haven OnDemand API, where the key is the name of a parameter of that API. 
 
-> Note 1: Post file syntax.
+
 ```
+> Note 1: Post file syntax.
 Map<String, Object> params = new HashMap<String, Object>();
+
 // post a single file with a file InputStream
 FileInputStream inputStream = new FileInputStream("fileName");
 Map<String, Object> uploadFile = new HashMap<String, Object>();
 uploadFile.put(item.getName(), inputStream);
 params.put("file", uploadFile);
-    
 // post a single file with a file name
 params.put("file", "fileName");
+
 // post a single file with a File object
 File uploadFile = new File("fileName"); 
 params.put("file", upload);
-    
+
 // post multiple files with filename
 List<String> uploadFiles = new ArrayList<String>();
 uploadFiles.add("filename1");
 uploadFiles.add("filename2");
 uploadFiles.add("filename3");
 params.put("file", uploadFiles);
-    
+
 // post multiple files with File object
 List<File> uploadFiles = new ArrayList<File>();
 File tempFile1 = new File(filename1);
@@ -166,19 +168,15 @@ uploadFiles.add(tempFile1);
 uploadFiles.add(tempFile2);
 uploadFiles.add(tempFile3);
 params.put("file", uploadFiles);
-    
-client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.SYNC);
-```
 
 > Note 2: For a value with its type is an array<>, the value must be defined in a List\<String>. 
-```
 Map<String, Object> params = new HashMap<String, Object>();
 List<String> entities = new ArrayList<String>();
 entities.add("people_eng");
 entities.add("places_eng");
 params.put("entity_type", entities);
     
-client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.SYNC);
+client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.ASYNC);
 ```
 
 * `hodApp` a string to identify a Haven OnDemand API. E.g. "ocrdocument". Current supported apps are listed in the HODApps class.
@@ -293,8 +291,7 @@ public void requestCompletedWithContent(String response)
 }
 ```
 
----
-**Function ParseCustomResponse**
+###Function ParseCustomResponse
 ```
 object ParseCustomResponse<T>(jsonStr)
 ```
