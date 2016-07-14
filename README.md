@@ -25,7 +25,7 @@ HODClient package for sending HTTP GET/POST requests to Haven OnDemand APIs.
 HODResponseParser package for parsing JSON responses from Haven OnDemand APIs. To use the HODResponseParser, you will need the json-1.7.1.jar and java.json.jar dependencies.
 
 ----
-## Integrate HODClient into your Java project
+## Integrate HODClient into your Java project (using Eclipse IDE)
 1. Download the library to your local machine.
 2. Right click the Project name and select "Build Path" - "Configure Build Path..." option
 3. Select "Java Build Path" then click on the "Libraries" tab and then click on "Add External JARs..."
@@ -143,21 +143,20 @@ FileInputStream inputStream = new FileInputStream("fileName");
 Map<String, Object> uploadFile = new HashMap<String, Object>();
 uploadFile.put(item.getName(), inputStream);
 params.put("file", uploadFile);
-
+    
 // post a single file with a file name
 params.put("file", "fileName");
-
 // post a single file with a File object
 File uploadFile = new File("fileName"); 
 params.put("file", upload);
-
+    
 // post multiple files with filename
 List<String> uploadFiles = new ArrayList<String>();
 uploadFiles.add("filename1");
 uploadFiles.add("filename2");
 uploadFiles.add("filename3");
 params.put("file", uploadFiles);
-
+    
 // post multiple files with File object
 List<File> uploadFiles = new ArrayList<File>();
 File tempFile1 = new File(filename1);
@@ -167,10 +166,10 @@ uploadFiles.add(tempFile1);
 uploadFiles.add(tempFile2);
 uploadFiles.add(tempFile3);
 params.put("file", uploadFiles);
-
+    
 client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.SYNC);
 ```
-----
+
 > Note 2: For a value with its type is an array<>, the value must be defined in a List\<String>. 
 ```
 Map<String, Object> params = new HashMap<String, Object>();
@@ -178,13 +177,14 @@ List<String> entities = new ArrayList<String>();
 entities.add("people_eng");
 entities.add("places_eng");
 params.put("entity_type", entities);
-
+    
 client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.SYNC);
 ```
 
 * `hodApp` a string to identify a Haven OnDemand API. E.g. "ocrdocument". Current supported apps are listed in the HODApps class.
 
 * `mode` [REQ_MODE.SYNC | REQ_MODE.ASYNC]: specifies API call as Asynchronous or Synchronous.
+```
 
 ### Function GetJobResult
 ```
@@ -203,6 +203,7 @@ String jobID = parser.ParseJobID(response);
 ```
 void GetJobStatus(String jobID)
 ```
+
 * `jobID` the job ID returned from an Haven OnDemand API upon an asynchronous call.
 
 *Example code:*
