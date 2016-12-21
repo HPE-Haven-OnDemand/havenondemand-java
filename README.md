@@ -69,7 +69,7 @@ public void onErrorOccurred(String errorMessage) { }
 When you call the GetRequest() or PostRequest() with the ASYNC mode, the response will be returned to this callback function. The response is a JSON string containing the jobID.
 ```
 @Override
-public void requestCompletedWithJobID(string response)
+public void requestCompletedWithJobID(String response)
 {
     // use the HODResponseParser to parse the jobID from the response
 }
@@ -78,7 +78,7 @@ public void requestCompletedWithJobID(string response)
 When you call the GetRequest() or PostRequest() with the SYNC mode, or call the GetJobResult() or GetJobStatus() functions, the response will be returned to this callback function. The response is a JSON string containing the actual result of the service.
 ```
 @Override
-public void requestCompletedWithContent(string response)
+public void requestCompletedWithContent(String response)
 {
     // use the HODResponseParser to parse content the response
 }
@@ -87,7 +87,7 @@ public void requestCompletedWithContent(string response)
 If there was an error occurred, the error message will be returned to this callback function.
 ```
 @Override
-public void onErrorOccurred(string errorMessage)
+public void onErrorOccurred(String errorMessage)
 {
     // check and handle errors
 }
