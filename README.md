@@ -45,6 +45,12 @@ where "API_KEY" is your API key and can be found [here](https://www.havenondeman
 HODClient client = new HODClient("API_KEY", "v1");
 client.SetProxy("proxy.address", port);
 ```
+
+## Set API version without recreating HODClient object
+```   
+client.SetVersion("v2")
+```
+
 ## Implement callback functions
 You will need to implement callback functions to receive responses from Haven OnDemand server
 ```
@@ -161,13 +167,19 @@ uploadFiles.add("filename3");
 params.put("file", uploadFiles);
 
 // post multiple files with File object
-List<File> uploadFiles = new ArrayList<File>();
+List<Object> uploadFiles = new ArrayList<Object>();
+Map<String,Object> f1 = new HashMap<String,Object>();
 File tempFile1 = new File(filename1);
+f1.put(filename1, tempFile1);
+Map<String,Object> f2 = new HashMap<String,Object>();
 File tempFile2 = new File(filename2);
+f2.put(filename2, tempFile2);
+Map<String,Object> f3 = new HashMap<String,Object>();
 File tempFile3 = new File(filename3);
-uploadFiles.add(tempFile1);
-uploadFiles.add(tempFile2);
-uploadFiles.add(tempFile3);
+f3.put(filename3, tempFile3);
+uploadFiles.add(f1);
+uploadFiles.add(f2);
+uploadFiles.add(f3);
 params.put("file", uploadFiles);
 
 // Note 2: For a value with its type is an array<>, the value must be defined in a List<String>. 
@@ -206,6 +218,30 @@ void GetJobStatus(String jobID)
 // Parse a JSON string contained a jobID and call the function to get the status of a call from Haven OnDemand API 
 String jobID = parser.ParseJobID(response);
 ``` 
+
+### Function GetRequestCombination
+
+Sends a HTTP GET request for Haven OnDemand combination API.
+```
+void GetRequestCombination(Map<String, Object> params, String hodApp, Boolean async)
+```
+*Parameters:*
+* `params` is a HashMap object containing key/value pair parameters to be sent to a Haven OnDemand API, where the key is the name of a parameter of that API.
+* `hodApp` is the name of the combination API you are calling.
+* `async` [true | false] specifies API call as Asynchronous or Synchronous.
+
+### Function PostRequestCombination
+
+Sends a HTTP POST request for Haven OnDemand combination API.
+```
+void PostRequestCombination(Map<String, Object> params, String hodApp, Boolean async)
+```
+
+*Parameters:*
+* `params` is a HashMap object containing key/value pair parameters to be sent to a Haven OnDemand API, where the key is the name of a parameter of that API.
+* `hodApp` is the name of the combination API you are calling.
+* `async` [true | false] specifies API call as Asynchronous or Synchronous.
+
 
 ## Using HODResponseParser package
 ```
