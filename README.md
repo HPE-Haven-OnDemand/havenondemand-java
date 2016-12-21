@@ -92,7 +92,7 @@ You can send requests to the API with either a GET or POST request, where POST r
 
 ### Function GetRequest
 ```
-void GetRequest(Map<String, Object> params, String hodApp, REQ_MODE mode)
+void GetRequest(Map<String, Object> params, String hodApp, Boolean async)
 ```
 
 * `params` is a HashMap object containing key/value pair parameters to be sent to a Haven OnDemand API, where the key is the name of a parameter of that API.
@@ -107,7 +107,7 @@ params.put("entity_type", entities);
 ```
 
 * `hodApp` a string to identify a Haven OnDemand API. E.g. "extractentities". Current supported apps are listed in the HODApps class.
-* `mode` [REQ_MODE.ASYNC | REQ_MODE.SYNC]: specifies API call as Asynchronous or Synchronous.
+* `async` [true | false]: specifies API call as Asynchronous or Synchronous.
 
 *Example code:*
 ```
@@ -126,15 +126,16 @@ Map<String, Object> params = new HashMap<String, Object>();
 params.put("url", urls);
 params.put("entity_type", entity_type);
 
-client.GetRequest(params, hodApp, HODClient.REQ_MODE.SYNC);
+client.GetRequest(params, hodApp, false);
 ```
 
 ### Function PostRequest
 ```
-void PostRequest(Map<String, Object> params, String hodApp, REQ_MODE mode)
+void PostRequest(Map<String, Object> params, String hodApp, Boolean async)
 ```
 * `params` is a HashMap object containing key/value pair parameters to be sent to a Haven OnDemand API, where the key is the name of a parameter of that API. 
-
+* `hodApp` a string to identify a Haven OnDemand API. E.g. "ocrdocument". Current supported apps are listed in the HODApps class.
+* `async` [true | false]: specifies API call as Asynchronous or Synchronous.
 
 ```
 // Note 1: Post files syntax.
@@ -176,13 +177,8 @@ entities.add("people_eng");
 entities.add("places_eng");
 params.put("entity_type", entities);
     
-client.PostRequest(params, HODApps.ENTITY_EXTRACTION, HODClient.REQ_MODE.ASYNC);
+client.PostRequest(params, HODApps.ENTITY_EXTRACTION, true);
 ```
-
-* `hodApp` a string to identify a Haven OnDemand API. E.g. "ocrdocument". Current supported apps are listed in the HODApps class.
-
-* `mode` [REQ_MODE.SYNC | REQ_MODE.ASYNC]: specifies API call as Asynchronous or Synchronous.
-
 
 ### Function GetJobResult
 ```
