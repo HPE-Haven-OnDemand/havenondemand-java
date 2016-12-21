@@ -38,21 +38,22 @@ class TestApp implements IHODClientCallback {
         String filename1 = "JavaAppDemo\\TestData\\sentiment1.txt";
         String filename2 = "JavaAppDemo\\TestData\\sentiment2.txt";
         String filename3 = "JavaAppDemo\\TestData\\sentiment3.txt";
-        /*
+        
         // pass multiple files as File object 
-        ListFile> files = new ArrayList<File>();
-        File tempFile1 = new File(filename1);
-        File tempFile2 = new File(filename2);
-        File tempFile3 = new File(filename3);
-        */
-        
-        // pass multiple files as filename
-        List<String> files = new ArrayList<String>();
-        files.add(filename1);
-        files.add(filename2);
-        files.add(filename3);
-        //
-        
+        List<Object> files = new ArrayList<Object>();
+		Map<String,Object> f1 = new HashMap<String,Object>();
+		File tempFile1 = new File(filename1);
+		f1.put(filename1, tempFile1);
+		Map<String,Object> f2 = new HashMap<String,Object>();
+		File tempFile2 = new File(filename2);
+		f2.put(filename2, tempFile2);
+		Map<String,Object> f3 = new HashMap<String,Object>();
+		File tempFile3 = new File(filename3);
+		f3.put(filename3, tempFile3);
+		files.add(f1);
+		files.add(f2);
+		files.add(f3);
+                
         params.put("file", files);
         params.put("language", "eng");
 		
@@ -70,7 +71,7 @@ class TestApp implements IHODClientCallback {
         entities.add("companies_eng");
         params.put("entity_type", entities);
 		
-		client.GetRequest(params, hodApp, HODClient.REQ_MODE.SYNC);
+		client.GetRequest(params, hodApp, false);
 	}
 	public void testSpeechRecognition() {
 		hodApp = HODApps.RECOGNIZE_SPEECH;
@@ -80,14 +81,13 @@ class TestApp implements IHODClientCallback {
         
         // pass a single file as File object
         File mediaFile = new File(fileName); 
+		Map<String, Object> file = new HashMap<String, Object>();
+		file.put(fileName, mediaFile);
 
-		// pass a single file as filename
-		// String mediaFile = fileName;
-
-        params.put("file", mediaFile);
+        params.put("file", file);
         params.put("language", "en-US");
 		
-		client.PostRequest(params, hodApp, HODClient.REQ_MODE.ASYNC);
+		client.PostRequest(params, hodApp, true);
 	}
 	@Override
 	public void requestCompletedWithContent(String response) {
@@ -148,7 +148,7 @@ class TestApp implements IHODClientCallback {
 			}
 		} else if (hodApp.equals(HODApps.ENTITY_EXTRACTION))
         {
-			EntityExtractionResponse resp = (EntityExtractionResponse)parser.ParseCustomResponse(EntityExtractionResponse.class, response);
+			EntityExtractionResponse resp = parser.ParseEntityExtractionResponse(response);
             if (resp != null)
             {
                 String result = "ENTITIES\r\n";

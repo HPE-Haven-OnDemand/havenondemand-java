@@ -63,7 +63,7 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
 				params.put("text", request.getParameter("text"));	
 				params.put("language", request.getParameter("language"));
 				out = response.getWriter();
-				client.GetRequest(params, this.hodApp, HODClient.REQ_MODE.SYNC);
+				client.GetRequest(params, this.hodApp, false);
 			} else if (action.equals(HODApps.ENTITY_EXTRACTION)){
 				this.hodApp = action;
 				params.put("text", request.getParameter("text"));
@@ -73,7 +73,7 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
 		        entities.add("places_eng");
 		        params.put("entity_type", entities);
 		        out = response.getWriter();
-				client.GetRequest(params, this.hodApp, HODClient.REQ_MODE.SYNC);
+				client.GetRequest(params, this.hodApp, false);
 			} else {
 				response.getWriter().print("API call is not implemented");
 			}
@@ -97,7 +97,7 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
             	FileItemIterator iterator = upload.getItemIterator(request);
                 
             	Map<String, Object> params = new HashMap<String, Object>();
-            	List<File> files = new ArrayList<File>();
+            	List<Object> files = new ArrayList<Object>();
                 while (iterator.hasNext()) {          
                 	FileItemStream item = iterator.next();
     	            String name = item.getFieldName();
@@ -113,8 +113,8 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
     		            inputStream.close();
     	            } else {
 	    	            // Copy file content to InputStream. Supported for small/medium size file
-
-/*	    	            InputStream input = copyToStream(inputStream);
+						/*
+	    	            InputStream input = copyToStream(inputStream);
 	    	           	if (input != null) {
 	    	           		Map<String, Object> file = new HashMap<String, Object>();
 	    	           		file.put(item.getName(), input);
@@ -133,7 +133,9 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
 	    	            File tempFile = new File(filePathAndName);
 	    	            try {
 	    	               	writeToFile(inputStream, tempFile);
-	    	               	files.add(tempFile);
+	    	               	Map<String,Object> f = new HashMap<String,Object>();
+	    	               	f.put(name, tempFile);
+	    	               	files.add(f);
 	    	            } catch (FileNotFoundException ex) {
 	    	              	throw ex;
 	    	            }  catch (IOException ex) {
@@ -146,10 +148,15 @@ public class MyServlet extends HttpServlet implements IHODClientCallback {
                 if (files.size() > 0)
                 	params.put("file", files);
                 out = response.getWriter();
-    			client.PostRequest(params, this.hodApp, HODClient.REQ_MODE.ASYNC);
+    			client.PostRequest(params, this.hodApp, true);
     			// delete temp files
-    			for (File file : files)
-    				file.delete();
+    			for (Object file : files) {
+    				Map<String, Object> f = (HashMap<String, Object>) file;
+        			for (Map.Entry<String, Object> item : f.entrySet()) {
+        				File df = (File) item.getValue();
+        				df.delete();
+        			}
+    			}
             } catch (Exception ex) {
                	String html = "<html><head/><body><h2>Error</h2>";
    				html += "<div> File Upload Failed due to " + ex + "</div>";
